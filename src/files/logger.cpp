@@ -2,10 +2,7 @@
 
 using namespace Files;
 
-wofstream Logger::m_logFile;
-mutex Logger::m_lock;
-
-void Logger::Init()
+Logger::Logger()
 {
    m_logFile.open( L"Log.txt", std::ios::app );
 }
@@ -33,7 +30,7 @@ void Logger::AddNote( const wstring& note )
    m_lock.unlock();
 }
 
-void Logger::Destroy()
+Logger::~Logger()
 {
    if ( m_logFile.is_open() )
       m_logFile.close();

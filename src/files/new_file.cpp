@@ -169,19 +169,19 @@ void NewFile::upload( MainWindow& window )
          }
 
       }
-      while ( dwSize - 1 > 0 );
+      while ( dwSize - 1 > 0 && window.isWindowOpen() );
    }
    else
    {
-      window.updateFileStatus(id, L"Server failed", RGB(255, 0, 0));
-      Logger::AddNote(L"Download of " + m_filePath + L" failed");
+      window.updateFileStatus( id, L"Server failed", RGB( 255, 0, 0 ) );
+      Logger::instance().AddNote( L"Download of " + m_filePath + L" failed" );
    }
 
-   if ( bResults )
+   if ( bResults && window.isWindowOpen() )
    {
       window.updateFileStatus( id, L"Done", RGB( 50, 205, 50 ) );
       window.updateFileSize( id, L"100%" );
-      Logger::AddNote( L"Download of " + m_filePath + L" complete" );
+      Logger::instance().AddNote( L"Download of " + m_filePath + L" complete" );
    }
 
    if ( newFile.is_open() )

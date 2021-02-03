@@ -44,6 +44,8 @@ namespace Windows
       void updateFileSize( unsigned id, const wstring& size );
       void updateFileStatus( unsigned id, const wstring& status, COLORREF color );
 
+      bool isWindowOpen() { return !m_isClose; }
+
       ~MainWindow();
 
    private:
@@ -54,6 +56,7 @@ namespace Windows
       HWND        m_windowHandler;
       HWND        m_listView;
       mutex       m_lock;
+      bool        m_isClose = false;
    };
 }
 

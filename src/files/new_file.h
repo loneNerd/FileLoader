@@ -4,7 +4,6 @@
 
 #include <ctime>
 #include <fstream>
-#include <memory>
 #include <string>
 #include <regex>
 #include <Windows.h>
@@ -14,7 +13,6 @@
 #include "logger.h"
 
 using std::ofstream;
-using std::shared_ptr;
 using std::wstring;
 using std::wregex;
 using std::wsmatch;

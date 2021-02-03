@@ -145,6 +145,7 @@ LRESULT CALLBACK MainWindow::processes( HWND hWnd, UINT message, WPARAM wParam, 
       }
       case WM_DESTROY:
       {
+         m_isClose = true;
          PostQuitMessage( 0 );
          break;
       }

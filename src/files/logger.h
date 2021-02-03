@@ -18,20 +18,26 @@ namespace Files
    class Logger
    {
    public:
-      Logger()                                  = delete;
       Logger( const Logger& other )            = delete;
       Logger( Logger&& other )                 = delete;
       Logger& operator=( const Logger& other ) = delete;
       Logger& operator=( Logger&& other )      = delete;
-      ~Logger()                                 = delete;
 
-      static void Init();
-      static void Destroy();
-      static void AddNote( const wstring& note );
+      ~Logger();
+
+      static Logger& instance()
+      {
+         static Logger inst;
+         return inst;
+      }
+
+      void AddNote( const wstring& note );
 
    private:
-      static wofstream m_logFile;
-      static mutex     m_lock;
+      Logger();
+
+      wofstream m_logFile;
+      mutex     m_lock;
    };
 }
 
