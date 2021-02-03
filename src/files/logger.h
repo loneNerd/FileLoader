@@ -31,10 +31,11 @@ namespace Files
          return inst;
       }
 
-      void AddNote( const wstring& note );
+      void init( const wstring& fileName );
+      void addNote( const wstring& note );
 
    private:
-      Logger();
+      Logger() {}
 
       wofstream m_logFile;
       mutex     m_lock;

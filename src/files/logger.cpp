@@ -2,12 +2,12 @@
 
 using namespace Files;
 
-Logger::Logger()
+void Logger::init( const wstring& fileName)
 {
-   m_logFile.open( L"Log.txt", std::ios::app );
+   m_logFile.open( fileName, std::ios::app );
 }
 
-void Logger::AddNote( const wstring& note )
+void Logger::addNote( const wstring& note )
 {
    m_lock.lock();
 

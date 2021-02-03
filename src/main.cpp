@@ -1,5 +1,4 @@
 #include <windows.h>
-#include <memory>
 #include <list>
 #include <sstream>
 #include <string>
@@ -9,7 +8,6 @@
 #include "files/new_file.h"
 #include "files/logger.h"
 
-using std::unique_ptr;
 using std::list;
 using std::wstringstream;
 using std::wstring;
@@ -21,15 +19,15 @@ int APIENTRY wWinMain( _In_     HINSTANCE hInstance,
                        _In_     int       nCmdShow )
 {
    Windows::MainWindow mainWindow( hInstance, nCmdShow );
+   Files::Logger::instance().init( L"Log.txt" );
 
    list< thread > threadPool;
-   list< unique_ptr< Files::NewFile > >files;
    wstring url;
    wstringstream buffer( lpCmdLine );
 
    while( buffer >> url )
    {
-      threadPool.push_back( thread{ &Files::NewFile::upload, Files::NewFile( url ), std::ref( mainWindow ) } );
+      threadPool.emplace_back( thread{ &Files::NewFile::upload, Files::NewFile( url ), std::ref( mainWindow ) } );
    }
 
    MSG msg;
@@ -42,7 +40,8 @@ int APIENTRY wWinMain( _In_     HINSTANCE hInstance,
 
    for ( auto& elem : threadPool )
    {
-      elem.join();
+      if ( elem.joinable() )
+         elem.join();
    }
 
    return static_cast< int >( msg.wParam );

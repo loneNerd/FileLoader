@@ -174,14 +174,14 @@ void NewFile::upload( MainWindow& window )
    else
    {
       window.updateFileStatus( id, L"Server failed", RGB( 255, 0, 0 ) );
-      Logger::instance().AddNote( L"Download of " + m_filePath + L" failed" );
+      Logger::instance().addNote( L"Download of " + m_filePath + L" failed" );
    }
 
    if ( bResults && window.isWindowOpen() )
    {
       window.updateFileStatus( id, L"Done", RGB( 50, 205, 50 ) );
       window.updateFileSize( id, L"100%" );
-      Logger::instance().AddNote( L"Download of " + m_filePath + L" complete" );
+      Logger::instance().addNote( L"Download of " + m_filePath + L" complete" );
    }
 
    if ( newFile.is_open() )
