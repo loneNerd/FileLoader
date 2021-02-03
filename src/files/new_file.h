@@ -2,6 +2,7 @@
 #ifndef FILES_NEW_FILE_H_
 #define FILES_NEW_FILE_H_
 
+#include <ctime>
 #include <fstream>
 #include <memory>
 #include <string>

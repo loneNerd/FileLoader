@@ -32,6 +32,9 @@ void CNewFile::upload( CMainWindow& window )
              hConnect = NULL,
              hRequest = NULL;
 
+   clock_t start = clock();
+   unsigned id = window.addFileStatus( m_filePath, L"Connecting", L"<NONE>" );
+
    hSession = WinHttpOpen( L"File Loader/1.0",
                            WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
                            WINHTTP_NO_PROXY_NAME,
@@ -113,8 +116,6 @@ void CNewFile::upload( CMainWindow& window )
 
    ofstream newFile( m_filePath, std::ios::binary | std::ofstream::trunc );
 
-   unsigned id = window.addFileStatus(m_filePath, L"Downloading", L"0.0 %");
-
    if ( !newFile.is_open() )
    {
       window.updateFileStatus( id, L"File create failed", RGB( 255, 0, 0 ) );
@@ -123,6 +124,9 @@ void CNewFile::upload( CMainWindow& window )
 
    if ( bResults )
    {
+      window.updateFileStatus( id, L"Loading", RGB( 50, 205, 50 ) );
+      window.updateFileSize( id, L"0%" );
+
       do
       {
          dwSize = 0;
@@ -130,6 +134,7 @@ void CNewFile::upload( CMainWindow& window )
          if ( !WinHttpQueryDataAvailable( hRequest, &dwSize ) )
          {
             window.updateFileStatus( id, L"Download Failed", RGB( 255, 0, 0 ) );
+            bResults = false;
             break;
          }
 
@@ -139,6 +144,7 @@ void CNewFile::upload( CMainWindow& window )
          if ( !pszOutBuffer )
          {
             window.updateFileStatus( id, L"Out of memory", RGB( 255, 0, 0 ) );
+            bResults = false;
             break;
          }
 
@@ -146,6 +152,7 @@ void CNewFile::upload( CMainWindow& window )
          {
             window.updateFileStatus( id, L"Read file failed", RGB( 255, 0, 0 ) );
             delete[] pszOutBuffer;
+            bResults = false;
             break;
          }
 
@@ -155,19 +162,26 @@ void CNewFile::upload( CMainWindow& window )
 
          m_downloaded += dwDownloaded;
 
-         window.updateFileSize( id, std::to_wstring( m_downloaded * 100 / fileSize ) + L"%" );
+         if ( start + 500 < clock() )
+         {
+            window.updateFileSize( id, std::to_wstring( m_downloaded * 100 / fileSize ) + L"%" );
+            start = clock();
+         }
 
       }
       while ( dwSize - 1 > 0 );
-
-      window.updateFileStatus( id, L"Done", RGB( 50, 205, 50 ) );
-      window.updateFileSize( id, L"100%" );
-      CLogger::AddNote( L"Download of " + m_filePath + L" complete" );
    }
    else
    {
-      window.updateFileStatus( id, L"Server failed", RGB( 255, 0, 0 ) );
-      CLogger::AddNote( L"Download of " + m_filePath + L" failed" );
+      window.updateFileStatus(id, L"Server failed", RGB(255, 0, 0));
+      CLogger::AddNote(L"Download of " + m_filePath + L" failed");
+   }
+
+   if ( bResults )
+   {
+      window.updateFileStatus( id, L"Done", RGB( 50, 205, 50 ) );
+      window.updateFileSize( id, L"100%" );
+      CLogger::AddNote( L"Download of " + m_filePath + L" complete" );
    }
 
    if ( newFile.is_open() )

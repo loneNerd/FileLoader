@@ -43,7 +43,7 @@ int APIENTRY wWinMain( _In_     HINSTANCE hInstance,
 
    for ( auto& elem : threadPool )
    {
-      elem.join();
+      elem.detach();
    }
 
    Files::CLogger::Destroy();
