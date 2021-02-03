@@ -2,15 +2,15 @@
 
 using namespace Files;
 
-wofstream CLogger::m_logFile;
-mutex CLogger::m_lock;
+wofstream Logger::m_logFile;
+mutex Logger::m_lock;
 
-void CLogger::Init()
+void Logger::Init()
 {
    m_logFile.open( L"Log.txt", std::ios::app );
 }
 
-void CLogger::AddNote( const wstring& note )
+void Logger::AddNote( const wstring& note )
 {
    m_lock.lock();
 
@@ -33,7 +33,7 @@ void CLogger::AddNote( const wstring& note )
    m_lock.unlock();
 }
 
-void CLogger::Destroy()
+void Logger::Destroy()
 {
    if ( m_logFile.is_open() )
       m_logFile.close();

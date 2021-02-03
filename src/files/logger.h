@@ -15,15 +15,15 @@ using std::wstring;
 
 namespace Files
 {
-   class CLogger
+   class Logger
    {
    public:
-      CLogger()                                  = delete;
-      CLogger( const CLogger& other )            = delete;
-      CLogger( CLogger&& other )                 = delete;
-      CLogger& operator=( const CLogger& other ) = delete;
-      CLogger& operator=( CLogger&& other )      = delete;
-      ~CLogger()                                 = delete;
+      Logger()                                  = delete;
+      Logger( const Logger& other )            = delete;
+      Logger( Logger&& other )                 = delete;
+      Logger& operator=( const Logger& other ) = delete;
+      Logger& operator=( Logger&& other )      = delete;
+      ~Logger()                                 = delete;
 
       static void Init();
       static void Destroy();

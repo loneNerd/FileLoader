@@ -18,23 +18,23 @@ using std::shared_ptr;
 using std::wstring;
 using std::wregex;
 using std::wsmatch;
-using Windows::CMainWindow;
+using Windows::MainWindow;
 
 namespace Files
 {
-   class CNewFile
+   class NewFile
    {
    public:
-      CNewFile( wstring name );
+      NewFile( wstring name );
 
-      CNewFile( const CNewFile& other )            = default;
-      CNewFile( CNewFile&& other )                 = default;
-      CNewFile& operator=( const CNewFile& other ) = default;
-      CNewFile& operator=( CNewFile&& other )      = default;
+      NewFile( const NewFile& other )            = default;
+      NewFile( NewFile&& other )                 = default;
+      NewFile& operator=( const NewFile& other ) = default;
+      NewFile& operator=( NewFile&& other )      = default;
 
-      ~CNewFile() {};
+      ~NewFile() {};
 
-      void upload( CMainWindow& window );
+      void upload( MainWindow& window );
 
    private:
       wstring m_domain;

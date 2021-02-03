@@ -19,8 +19,8 @@ int APIENTRY wWinMain( _In_     HINSTANCE hInstance,
                        _In_     LPWSTR    lpCmdLine,
                        _In_     int       nCmdShow )
 {
-   Windows::CMainWindow mainWindow( hInstance, nCmdShow );
-   Files::CLogger::Init();
+   Windows::MainWindow mainWindow( hInstance, nCmdShow );
+   Files::Logger::Init();
 
    list< thread > threadPool;
    wstring url;
@@ -28,8 +28,8 @@ int APIENTRY wWinMain( _In_     HINSTANCE hInstance,
 
    while( buffer >> url )
    {
-      threadPool.push_back( thread{ &Files::CNewFile::upload,
-                                    Files::CNewFile( url ),
+      threadPool.push_back( thread{ &Files::NewFile::upload,
+                                    Files::NewFile( url ),
                                     std::ref( mainWindow ) } );
    }
 
@@ -46,6 +46,6 @@ int APIENTRY wWinMain( _In_     HINSTANCE hInstance,
       elem.detach();
    }
 
-   Files::CLogger::Destroy();
+   Files::Logger::Destroy();
    return static_cast< int >( msg.wParam );
 }

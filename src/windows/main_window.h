@@ -28,15 +28,15 @@ namespace Windows
    using std::vector;
    using std::pair;
 
-   class CMainWindow
+   class MainWindow
    {
    public:
-      CMainWindow( HINSTANCE hInstance, int nCmdShow );
+      MainWindow( HINSTANCE hInstance, int nCmdShow );
 
-      CMainWindow( const CMainWindow& other )            = delete;
-      CMainWindow( CMainWindow&& other )                 = delete;
-      CMainWindow& operator=( const CMainWindow& other ) = delete;
-      CMainWindow& operator=( CMainWindow&& other )      = delete;
+      MainWindow( const MainWindow& other )            = delete;
+      MainWindow( MainWindow&& other )                 = delete;
+      MainWindow& operator=( const MainWindow& other ) = delete;
+      MainWindow& operator=( MainWindow&& other )      = delete;
 
       HWND getHandler() const { return m_windowHandler; }
 
@@ -44,7 +44,7 @@ namespace Windows
       void updateFileSize( unsigned id, const wstring& size );
       void updateFileStatus( unsigned id, const wstring& status, COLORREF color );
 
-      ~CMainWindow();
+      ~MainWindow();
 
    private:
       static LRESULT CALLBACK s_processes( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );

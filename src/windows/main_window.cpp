@@ -2,11 +2,11 @@
 
 using namespace Windows;
 
-CMainWindow::CMainWindow( HINSTANCE hInstance, int nCmdShow )
+MainWindow::MainWindow( HINSTANCE hInstance, int nCmdShow )
 {
    m_mainWindow.cbSize        = sizeof( WNDCLASSEX );
    m_mainWindow.style         = CS_HREDRAW | CS_VREDRAW;
-   m_mainWindow.lpfnWndProc   = CMainWindow::s_processes;
+   m_mainWindow.lpfnWndProc   = MainWindow::s_processes;
    m_mainWindow.hInstance     = hInstance;
    m_mainWindow.hCursor       = LoadCursor( nullptr, IDC_ARROW );
    m_mainWindow.hbrBackground = ( HBRUSH )( COLOR_WINDOW + 1 );
@@ -64,13 +64,13 @@ CMainWindow::CMainWindow( HINSTANCE hInstance, int nCmdShow )
    SendMessage( m_listView, LVM_INSERTCOLUMN, 2, ( LPARAM )&lvC );
 }
 
-CMainWindow::~CMainWindow()
+MainWindow::~MainWindow()
 {
    DestroyWindow( m_windowHandler );
    DestroyWindow( m_listView );
 }
 
-unsigned CMainWindow::addFileStatus( const wstring& name, const wstring& status, const wstring& size )
+unsigned MainWindow::addFileStatus( const wstring& name, const wstring& status, const wstring& size )
 {
    m_lock.lock();
 
@@ -92,24 +92,24 @@ unsigned CMainWindow::addFileStatus( const wstring& name, const wstring& status,
    return iItem;
 }
 
-void CMainWindow::updateFileStatus( unsigned id, const wstring& status, COLORREF color )
+void MainWindow::updateFileStatus( unsigned id, const wstring& status, COLORREF color )
 {
    ListView_SetItemText( m_listView, id, 1, ( LPWSTR )status.c_str() );
    
 }
 
-void CMainWindow::updateFileSize( unsigned id, const wstring& progress )
+void MainWindow::updateFileSize( unsigned id, const wstring& progress )
 {
    ListView_SetItemText( m_listView, id, 2, ( LPWSTR )progress.c_str() );
 }
 
-LRESULT CMainWindow::s_processes( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
+LRESULT MainWindow::s_processes( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-   CMainWindow* pThis;
+   MainWindow* pThis;
 
    if ( uMsg == WM_NCCREATE )
    {
-      pThis = static_cast< CMainWindow* >( reinterpret_cast< CREATESTRUCT* >( lParam )->lpCreateParams );
+      pThis = static_cast< MainWindow* >( reinterpret_cast< CREATESTRUCT* >( lParam )->lpCreateParams );
 
       SetLastError(0);
       if ( !SetWindowLongPtr( hWnd, GWLP_USERDATA, reinterpret_cast< LONG_PTR >( pThis ) ) )
@@ -120,7 +120,7 @@ LRESULT CMainWindow::s_processes( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
    }
    else
    {
-      pThis = reinterpret_cast< CMainWindow* >( GetWindowLongPtr( hWnd, GWLP_USERDATA ) );
+      pThis = reinterpret_cast< MainWindow* >( GetWindowLongPtr( hWnd, GWLP_USERDATA ) );
    }
 
    if ( pThis )
@@ -131,7 +131,7 @@ LRESULT CMainWindow::s_processes( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
    return FALSE;
 }
 
-LRESULT CALLBACK CMainWindow::processes( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+LRESULT CALLBACK MainWindow::processes( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
    switch ( message )
    {

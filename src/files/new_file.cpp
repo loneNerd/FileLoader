@@ -2,9 +2,9 @@
 
 using namespace Files;
 
-CNewFile::CNewFile(wstring url)
+NewFile::NewFile( wstring url )
 {
-   wregex protocolPattern{ L"http(s)?://(w+.)?" };
+   wregex protocolPattern{ L"http(s)?://" };
    wsmatch matches;
 
    if ( regex_search( url, matches, protocolPattern ) )
@@ -20,7 +20,7 @@ CNewFile::CNewFile(wstring url)
    m_filePath.assign( m_urlPath.cbegin() + bSlash + 1, m_urlPath.cend() );
 }
 
-void CNewFile::upload( CMainWindow& window )
+void NewFile::upload( MainWindow& window )
 {
    DWORD dwSize       = 0;
    DWORD dwDownloaded = 0;
@@ -174,14 +174,14 @@ void CNewFile::upload( CMainWindow& window )
    else
    {
       window.updateFileStatus(id, L"Server failed", RGB(255, 0, 0));
-      CLogger::AddNote(L"Download of " + m_filePath + L" failed");
+      Logger::AddNote(L"Download of " + m_filePath + L" failed");
    }
 
    if ( bResults )
    {
       window.updateFileStatus( id, L"Done", RGB( 50, 205, 50 ) );
       window.updateFileSize( id, L"100%" );
-      CLogger::AddNote( L"Download of " + m_filePath + L" complete" );
+      Logger::AddNote( L"Download of " + m_filePath + L" complete" );
    }
 
    if ( newFile.is_open() )
